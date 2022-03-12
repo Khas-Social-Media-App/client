@@ -45,7 +45,7 @@ const QueryProvider = () => {
 const App = () => {
   return (
     <SafeAreaProvider style={styles.safeArea}>
-      <StatusBar barStyle={'#f2f'} backgroundColor={'#f2f'} />
+      <StatusBar barStyle={'dark-content'} backgroundColor={'#ffffff'} />
       <Navigation />
     </SafeAreaProvider>
   );

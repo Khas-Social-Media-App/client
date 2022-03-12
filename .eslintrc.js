@@ -23,7 +23,7 @@ module.exports = {
     plugins: [ 'react', 'react-native', 'react-hooks', 'prettier' ],
     rules: {
         indent: [ 'error', 4, { SwitchCase: 1 }],
-        'linebreak-style': [ 'error', 'unix' ],
+        'linebreak-style': [ 'error', 'unix', 'windows' ],
         quotes: [ 2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
         'comma-dangle': [ 2, 'never' ],
         semi: [ 2, 'never' ],
@@ -92,7 +92,6 @@ module.exports = {
         'react-native/no-unused-styles': 'off', // 2
         'react-native/split-platform-components': 2,
         'react-native/no-inline-styles': 2,
-        'react-native/no-color-literals': 2,
         'react-native/no-raw-text': 2,
         'prettier/prettier': 'error',
         'import/order': [

@@ -1,20 +1,22 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import PageHoc from '../../layouts/PageHoc';
+import React from 'react'
 
-const Login = () => {
-  return (
-    <>
-      <Text
-        style={{
-          fontSize: 20,
-          textAlign: 'center',
-          backgroundColor: '#f2f',
-        }}>
-        Snwo Serkan is here
-      </Text>
-    </>
-  );
-};
+import { View, Text , StyleSheet} from 'react-native'
 
-export default PageHoc(Login, {scroll: true});
+import PageHoc from '../../layouts/PageHoc'
+
+const Login = () => (
+    <Text
+        style={styles.mainTextStyle}>
+        Khas Socail Media Project
+    </Text>
+)
+
+const styles = StyleSheet.create({
+    mainTextStyle: {
+        fontSize: 20,
+        textAlign: 'center',
+        backgroundColor: '#f2f'
+    }
+})
+
+export default PageHoc(Login, { scroll: true })

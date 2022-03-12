@@ -1,22 +1,18 @@
 import React from 'react'
 
-import { View, Text , StyleSheet} from 'react-native'
+import { View, Text} from 'react-native'
+import styles from './LoginStyles'
 
 import PageHoc from '../../layouts/PageHoc'
 
 const Login = () => (
-    <Text
-        style={styles.mainTextStyle}>
-        Khas Socail Media Project
-    </Text>
+    <View style={styles.container}>
+        <Text
+            style={styles.mainTextStyle}>
+            Khas Social Media Project
+        </Text>
+    </View>
 )
 
-const styles = StyleSheet.create({
-    mainTextStyle: {
-        fontSize: 20,
-        textAlign: 'center',
-        backgroundColor: '#f2f'
-    }
-})
 
 export default PageHoc(Login, { scroll: true })

@@ -43,6 +43,13 @@ const QueryProvider = () => {
 };
 
 const App = () => {
+
+ 
+  React.useEffect(() => {
+    console.log('burak git')
+  },[])
+
+
   return (
     <SafeAreaProvider style={styles.safeArea}>
       <StatusBar barStyle={'dark-content'} backgroundColor={'#ffffff'} />

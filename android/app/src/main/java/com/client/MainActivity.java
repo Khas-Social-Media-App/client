@@ -1,4 +1,4 @@
-package com.client;
+package com.khas.social;
 
 import com.facebook.react.ReactActivity;
 

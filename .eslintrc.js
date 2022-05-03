@@ -23,7 +23,7 @@ module.exports = {
     plugins: [ 'react', 'react-native', 'react-hooks', 'prettier' ],
     rules: {
         indent: [ 'error', 4, { SwitchCase: 1 }],
-        'linebreak-style': [ 'error', 'unix', 'windows' ],
+        'linebreak-style': 0,
         quotes: [ 2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
         'comma-dangle': [ 2, 'never' ],
         semi: [ 2, 'never' ],

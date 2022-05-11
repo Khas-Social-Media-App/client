@@ -3,14 +3,19 @@ import * as React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useAtom, useAtomValue } from 'jotai'
 import { Image } from 'react-native'
 
+import { ChatScreen } from '../screens/ChatScreen/ChatScreen'
 import Home from '../screens/Home/Home'
 import Login from '../screens/Login/Login'
+import Messages from '../screens/Messages/Messages'
 import Profile from '../screens/Profile/Profile'
 import SettingsPage from '../screens/SettingsPage/SettingsPage'
+import { userAtom } from '../utils/atoms'
 import navigationRef from '../utils/navigation-ref'
 
+import ChatIcon from '../../assets/icons/ChatIcon.png'
 import GearIcon from '../../assets/icons/GearIcon.png'
 import HomeIcon from '../../assets/icons/HomeIcon.png'
 import ProfileIcon from '../../assets/icons/ProfileIcon.png'
@@ -29,6 +34,21 @@ function MyTabs() {
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={HomeIcon}
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#1DAEFF' : '#000'
+                            }} />
+                    ),
+                    tabBarShowLabel: false
+                }} />
+            <Tab.Screen
+                name='Messages'
+                component={Messages}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={ChatIcon}
                             style={{
                                 width: 25,
                                 height: 25,
@@ -96,27 +116,46 @@ const Navigation = () => {
     )
 }
 
-const RootNavigator = () => (
-    <Stack.Navigator
-        screenOptions={{
-            headerShadowVisible: false,
-            title: null
-        }}
-        initialRouteName='Login'>
-        <Stack.Screen
-            name='Login'
-            component={Login}
-            options={{
-                headerShown: false
-            }} />
-        <Stack.Screen
-            name='Main'
-            component={MyTabs}
-            options={{
-                headerShown: false
-            }} />
+const RootNavigator = () => {
+    const user = useAtomValue(userAtom)
 
-    </Stack.Navigator>
-)
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShadowVisible: false,
+                title: null
+            }}
+            initialRouteName={`${user ? 'Main' : 'Login'}`}>
+            {
+                user ? (
+
+                    <>
+                        <Stack.Screen
+                            name='Main'
+                            component={MyTabs}
+                            options={{
+                                headerShown: false
+                            }} />
+
+                        <Stack.Screen
+                            name='Chat'
+                            component={ChatScreen}
+                            options={{
+                                headerShown: false
+                            }} />
+                    </>
+                ) : (
+                    <Stack.Screen
+                        name='Login'
+                        component={Login}
+                        options={{
+                            headerShown: false
+                        }} />
+                )
+            }
+
+        </Stack.Navigator>
+    )
+}
 
 export default Navigation

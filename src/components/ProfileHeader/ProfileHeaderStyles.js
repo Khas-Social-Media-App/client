@@ -9,11 +9,7 @@ export const styles = StyleSheet.create({
         overflow: 'hidden',
         padding: 20
     },
-    avatar: {
-        width: 50,
-        height: 50,
-        borderRadius: 25
-    },
+
     leftContainer: {
         flexDirection: 'row',
         justifyContent: 'center'

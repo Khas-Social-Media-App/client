@@ -1,12 +1,15 @@
 import React from 'react'
 
-import { useNavigation } from '@react-navigation/native'
+import { useUpdateAtom } from 'jotai/utils'
 import {
     View, Text, TouchableOpacity, Image
 } from 'react-native'
 import { authorize } from 'react-native-app-auth'
+import { useMutation } from 'react-query'
 
 import PageHoc from '../../layouts/PageHoc'
+import { userAtom } from '../../utils/atoms'
+import * as Queries from '../../utils/queries'
 import styles from './LoginStyles'
 
 import devflowImage from '../../../assets/images/devflow.png'
@@ -14,7 +17,7 @@ import githubImage from '../../../assets/images/github.png'
 import pcImage from '../../../assets/images/pc.png'
 
 const Login = () => {
-    const navigation = useNavigation()
+    const setUser = useUpdateAtom(userAtom)
     const config = {
         redirectUrl: 'com.khas.social.auth://auth',
         clientId: 'dbc486df35ecd1be2a69',
@@ -29,6 +32,15 @@ const Login = () => {
         }
     }
 
+    const loginMutation = useMutation(Queries.login, {
+        onSuccess: (data) => {
+            setUser(data)
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    })
+
     const signInWithGithub = async () => {
         // Log in to get an authentication token
         const authState = await authorize(config)
@@ -41,10 +53,15 @@ const Login = () => {
             }
         })
 
-        const user = await response.json()
+        const gitUser = await response.json()
 
-        if (user) {
-            navigation.navigate('Main')
+        if (gitUser) {
+            loginMutation.mutate({
+                email: gitUser.email ? gitUser.email : '',
+                username: gitUser.login ? gitUser.login : '',
+                displayName: gitUser.name ? gitUser.name : '',
+                photoURL: gitUser.avatar_url ? gitUser.avatar_url : ''
+            })
         }
     }
 

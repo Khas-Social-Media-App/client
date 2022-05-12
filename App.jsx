@@ -1,5 +1,6 @@
 import React from 'react'
 
+import '@react-native-firebase/app'
 import { ErrorBoundary } from 'react-error-boundary'
 import {
     StyleSheet, Text, StatusBar

@@ -4,6 +4,7 @@ import {
     Image, Text, TouchableOpacity, View
 } from 'react-native'
 
+import ProfileAvatar from '../ProfileAvatar/ProfileAvatar'
 import { styles } from './ProfileHeaderStyles'
 
 import EditIcon from '../../../assets/icons/EditIcon.png'
@@ -12,11 +13,7 @@ const ProfileHeader = ({ isAdmin }) => (
     <View style={styles.profileHeader}>
         <View style={styles.profileHeaderTop}>
             <View style={styles.leftContainer}>
-                <Image
-                    source={{
-                        uri: 'https://avatars.githubusercontent.com/u/75138419?v=4'
-                    }}
-                    style={styles.avatar} />
+                <ProfileAvatar />
                 <View style={styles.nameAndTitleContainer}>
                     <Text style={styles.name}>
                         Mertcan Karaman

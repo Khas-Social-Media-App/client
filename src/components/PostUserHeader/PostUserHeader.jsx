@@ -6,17 +6,17 @@ import {
 
 import ThreeDotsIcon from '../../../assets/icons/ThreeDots.png'
 
-const PostUserHeader = () => (
+const PostUserHeader = ({ owner }) => (
     <View style={styles.container}>
         <View style={styles.containerLeft}>
             <Image
                 source={{
-                    uri: 'https://avatars.githubusercontent.com/u/75138419?v=4'
+                    uri: owner.photoURL
                 }}
                 style={styles.avatar} />
             <View style={styles.nameAndTitleContainer}>
                 <Text style={styles.name}>
-                    Mertcan Karaman
+                    {owner.displayName ? owner.displayName : owner.username}
                 </Text>
                 <Text style={styles.title}>
                     React Native Developer

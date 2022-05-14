@@ -1,22 +1,94 @@
 import React from 'react'
 
-import { View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import {
+    ActivityIndicator, FlatList, Text, View
+} from 'react-native'
+import { FloatingAction } from 'react-native-floating-action'
+import { useMutation } from 'react-query'
 
 import PostCard from '../../components/PostCard/PostCard'
 import PageHoc from '../../layouts/PageHoc'
+import * as Queries from '../../utils/queries'
 import { styles } from './HomeStyles'
 
-const Home = () => (
+import PlusIcon from '../../../assets/icons/PlusIcon.png'
 
-    <View style={styles.container}>
+const Home = () => {
+    const navigation = useNavigation()
 
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
+    const [ feedPosts, setFeedPosts ] = React.useState([])
 
-    </View>
+    const getFeedPostsMutation = useMutation(Queries.getFeedPosts, {
+        onSuccess: (data) => {
+            setFeedPosts(data)
+        }
+    })
 
-)
+    const actions = [
+        {
+            text: 'Add Post',
+            icon: PlusIcon,
+            name: '1',
+            position: 1
+        }
+    ]
 
-export default PageHoc(Home, { scroll: true })
+    const onFloatingActionPress = (name) => {
+        if (name === '1') {
+            navigation.navigate('CreatePostScreen')
+        }
+    }
+
+    React.useEffect(() => {
+        getFeedPostsMutation.mutate()
+    }, [])
+
+    if (getFeedPostsMutation.isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator color='#1DAEFF' />
+            </View>
+        )
+    }
+
+    return (
+
+        <>
+
+            {
+                feedPosts.length === 0 ? (
+                    <View style={styles.container}>
+                        <Text>No posts yet</Text>
+                    </View>
+                ) : (
+                    <FlatList
+                        data={feedPosts}
+                        renderItem={({ item }) => <PostCard post={item} />}
+                        refreshing={getFeedPostsMutation.isLoading}
+                        onRefresh={getFeedPostsMutation.mutate}
+                        style={styles.feedList} />
+                )
+            }
+
+            <View style={styles.floatingButtonStyle}>
+                <FloatingAction
+                    shadowBackground={false}
+                    showBackground={false}
+                    floatingIcon={PlusIcon}
+                    elevation={0}
+                    color='#1DAEFF'
+                    iconColor='#1DAEFF'
+                    buttonSize={65}
+                    iconWidth={36}
+                    iconHeight={36}
+                    onPressItem={onFloatingActionPress}
+                    actions={actions} />
+            </View>
+
+        </>
+
+    )
+}
+
+export default PageHoc(Home)

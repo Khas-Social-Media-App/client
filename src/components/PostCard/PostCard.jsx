@@ -1,8 +1,7 @@
 import React from 'react'
 
-import { useNavigation } from '@react-navigation/native'
 import {
-    Image, StyleSheet, Text, TouchableOpacity, View
+    Image, StyleSheet, Text, View
 } from 'react-native'
 import Lightbox from 'react-native-lightbox-v2'
 import { widthPercentageToDP } from 'react-native-responsive-screen'
@@ -10,29 +9,31 @@ import { widthPercentageToDP } from 'react-native-responsive-screen'
 import PostUserHeader from '../PostUserHeader/PostUserHeader'
 import PostActions from './PostActions'
 
-const mockImage = 'https://i.stack.imgur.com/MQWRw.png'
+const PostCard = ({ navigator, post }) => {
+    console.log(post)
 
-const PostCard = ({ navigator }) => (
-    <View style={styles.cardView}>
-        <PostUserHeader />
-        <View style={styles.cardContent}>
-            <Text>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti vero laboriosam, in eveniet deleniti vitae assumenda consequatur harum, natus voluptatibus facilis vel impedit unde? Fugit eius vitae quidem consectetur sint?
-            </Text>
-            {
-                mockImage && (
-                    <Lightbox navigator={navigator} underlayColor='white'>
-                        <Image
-                            style={{ height: widthPercentageToDP(50) }}
-                            source={{ uri: mockImage }}
-                            resizeMode='contain' />
-                    </Lightbox>
-                )
-            }
+    return (
+        <View style={styles.cardView}>
+            <PostUserHeader owner={post.owner} />
+            <View style={styles.cardContent}>
+                <Text>
+                    {post.content}
+                </Text>
+                {
+                    post.image && (
+                        <Lightbox navigator={navigator} underlayColor='white'>
+                            <Image
+                                style={{ height: widthPercentageToDP(50) }}
+                                source={{ uri: post.image }}
+                                resizeMode='contain' />
+                        </Lightbox>
+                    )
+                }
+            </View>
+            <PostActions post={post} />
         </View>
-        <PostActions />
-    </View>
-)
+    )
+}
 
 export default PostCard
 

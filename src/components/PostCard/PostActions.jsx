@@ -7,7 +7,7 @@ import {
 import CommentIcon from '../../../assets/icons/CommentIcon.png'
 import LikeIcon from '../../../assets/icons/LikeIcon.png'
 
-const PostActions = () => (
+const PostActions = ({ post }) => (
     <View style={styles.actions}>
         <View style={styles.actionButtonStyle}>
             <TouchableOpacity>
@@ -17,7 +17,7 @@ const PostActions = () => (
                     style={styles.actionIcon} />
             </TouchableOpacity>
             <Text style={styles.actionLikeCountText}>
-                62
+                {post.likes.length}
             </Text>
         </View>
         <View style={styles.actionButtonStyle}>
@@ -28,7 +28,7 @@ const PostActions = () => (
                     style={styles.actionIcon} />
             </TouchableOpacity>
             <Text style={styles.actionLikeCountText}>
-                62
+                {post.comments.length}
             </Text>
         </View>
     </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     actions: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        marginTop: 10,
+        marginTop: 20,
         paddingHorizontal: 20
     },
     actionIcon: {

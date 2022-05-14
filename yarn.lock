@@ -5942,6 +5942,11 @@ react-native-config@^1.4.5:
   resolved "https://registry.npmmirror.com/react-native-config/-/react-native-config-1.4.5.tgz#6fe5895410b75e44fe4f4bf00caaf894a0981f3a"
   integrity sha512-5oiAsoW88SOYDg/0cleJ2vJDqv98FJUbFQYEnH4sdMtEn3AAT3lb7BkTGW8HO/t3Vk9VOruwxUUnO4tzuxzCsw==
 
+react-native-floating-action@^1.22.0:
+  version "1.22.0"
+  resolved "https://registry.npmmirror.com/react-native-floating-action/-/react-native-floating-action-1.22.0.tgz#7ec476f320e16855ad4077a3a9f36511d1718a52"
+  integrity sha512-m/9ueh2bgV+Dopelam2hu+FIY1wrIOPjpcBNgU3I5J9SqWmPQCarSz5L8zsW5QWE4YgXuaVbYAO/pgb0P8x/gQ==
+
 react-native-gifted-chat@^0.16.3:
   version "0.16.3"
   resolved "https://registry.npmmirror.com/react-native-gifted-chat/-/react-native-gifted-chat-0.16.3.tgz#eea98290bfcf72b36d2aaf002edddd90353aa6ec"
@@ -5956,6 +5961,11 @@ react-native-gifted-chat@^0.16.3:
     react-native-parsed-text "0.0.22"
     react-native-typing-animation "^0.1.7"
     uuid "3.4.0"
+
+react-native-image-crop-picker@^0.37.3:
+  version "0.37.3"
+  resolved "https://registry.npmmirror.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.37.3.tgz#f260e40b6a6ba8e98f4db3dde25a8f09e0936385"
+  integrity sha512-ih+0pWWRUNEFQyaHwGbH9rqJNOb7EBYMwKJhTY0VmsKIA9E+usfwMmQXAFIfOnee7fTn0A2vOXkBCPQZwyvnQw==
 
 react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.2.1:
   version "1.3.1"

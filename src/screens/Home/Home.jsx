@@ -36,7 +36,7 @@ const Home = () => {
 
     const onFloatingActionPress = (name) => {
         if (name === '1') {
-            navigation.navigate('CreatePostScreen')
+            navigation.navigate('CreatePostScreen', { setFeedPosts })
         }
     }
 
@@ -53,9 +53,7 @@ const Home = () => {
     }
 
     return (
-
         <>
-
             {
                 feedPosts.length === 0 ? (
                     <View style={styles.container}>
@@ -64,13 +62,13 @@ const Home = () => {
                 ) : (
                     <FlatList
                         data={feedPosts}
+                        keyExtractor={(item) => item._id}
                         renderItem={({ item }) => <PostCard post={item} />}
                         refreshing={getFeedPostsMutation.isLoading}
                         onRefresh={getFeedPostsMutation.mutate}
                         style={styles.feedList} />
                 )
             }
-
             <View style={styles.floatingButtonStyle}>
                 <FloatingAction
                     shadowBackground={false}
@@ -85,7 +83,6 @@ const Home = () => {
                     onPressItem={onFloatingActionPress}
                     actions={actions} />
             </View>
-
         </>
 
     )

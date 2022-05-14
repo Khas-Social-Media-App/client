@@ -10,20 +10,26 @@ import {
 } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import { widthPercentageToDP } from 'react-native-responsive-screen'
+import Toast from 'react-native-toast-message'
 import { useMutation } from 'react-query'
 
 import MultilineInput from '../../components/Input/MultilineInput'
 import PageHoc from '../../layouts/PageHoc'
 import * as Queries from '../../utils/queries'
 
-const CreatePostScreen = () => {
+const CreatePostScreen = ({ route }) => {
     const navigation = useNavigation()
+    const { setFeedPosts } = route.params
     const [ content, setContent ] = React.useState('')
     const [ image, setImage ] = React.useState(null)
 
     const createPostMutation = useMutation(Queries.createPost, {
         onSuccess: (data) => {
-            console.log('create post ', data)
+            Toast.show({
+                type: 'success',
+                text1: 'Post created successfully'
+            })
+            setFeedPosts((prevData) => [ data, ...prevData ])
             navigation.goBack()
         }
     })
@@ -31,7 +37,7 @@ const CreatePostScreen = () => {
     const handleImagePick = () => {
         ImagePicker.openPicker({
             width: 300,
-            height: 400,
+            height: 300,
             cropping: true
         }).then((image) => {
             console.log(image)

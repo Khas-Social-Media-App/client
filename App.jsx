@@ -6,6 +6,7 @@ import {
     StyleSheet, Text, StatusBar
 } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import {
     QueryClient,
     QueryClientProvider,
@@ -51,6 +52,7 @@ const App = () => (
     <SafeAreaProvider style={styles.safeArea}>
         <StatusBar barStyle='dark-content' backgroundColor='#ffffff' />
         <Navigation />
+        <Toast />
     </SafeAreaProvider>
 )
 

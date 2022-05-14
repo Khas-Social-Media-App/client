@@ -36,7 +36,6 @@ const Profile = () => {
 
     return (
         <View style={styles.container}>
-            <ProfileHeader isAdmin />
 
             {
                 myUserPosts.length === 0 ? (
@@ -45,7 +44,11 @@ const Profile = () => {
                     </View>
                 ) : (
                     <FlatList
+                        ListHeaderComponent={<ProfileHeader isAdmin />}
                         data={myUserPosts}
+                        keyExtractor={(item) => item._id}
+                        refreshing={getMyUserPostsMutation.isLoading}
+                        onRefresh={getMyUserPostsMutation.mutate}
                         renderItem={({ item }) => <PostCard post={item} />} />
                 )
             }
@@ -54,4 +57,4 @@ const Profile = () => {
     )
 }
 
-export default PageHoc(Profile, { scroll: true })
+export default PageHoc(Profile)

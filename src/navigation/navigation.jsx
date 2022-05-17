@@ -3,10 +3,12 @@ import * as React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { Image } from 'react-native'
 
+import Header from '../components/Header'
 import { ChatScreen } from '../screens/ChatScreen/ChatScreen'
+import CreatePostScreen from '../screens/CreatePostScreen/CreatePostScreen'
 import Home from '../screens/Home/Home'
 import Login from '../screens/Login/Login'
 import Messages from '../screens/Messages/Messages'
@@ -142,6 +144,13 @@ const RootNavigator = () => {
                             component={ChatScreen}
                             options={{
                                 headerShown: false
+                            }} />
+                        <Stack.Screen
+                            name='CreatePostScreen'
+                            component={CreatePostScreen}
+                            options={{
+                                header: () => <Header title='Create Post' />,
+                                animation: 'slide_from_bottom'
                             }} />
                     </>
                 ) : (

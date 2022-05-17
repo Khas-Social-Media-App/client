@@ -1,24 +1,60 @@
 import React from 'react'
 
 import {
+    ActivityIndicator,
+    FlatList,
+    Text,
     View
 } from 'react-native'
+import { useMutation } from 'react-query'
 
 import PostCard from '../../components/PostCard/PostCard'
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader'
 import PageHoc from '../../layouts/PageHoc'
+import * as Queries from '../../utils/queries'
 import { styles } from './ProfileStyles'
 
-const Profile = () => (
-    <View style={styles.container}>
-        <ProfileHeader isAdmin />
+const Profile = () => {
+    const [ myUserPosts, setMyUserPosts ] = React.useState([])
+    const getMyUserPostsMutation = useMutation(Queries.getMyUserPosts, {
+        onSuccess: (data) => {
+            setMyUserPosts(data)
+        }
+    })
 
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
+    React.useEffect(() => {
+        getMyUserPostsMutation.mutate()
+    }, [])
 
-    </View>
-)
+    if (getMyUserPostsMutation.isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator color='#1DAEFF' />
+            </View>
+        )
+    }
 
-export default PageHoc(Profile, { scroll: true })
+    return (
+        <View style={styles.container}>
+
+            {
+                myUserPosts.length === 0 ? (
+                    <View style={styles.container}>
+                        <Text>No posts yet</Text>
+                    </View>
+                ) : (
+                    <FlatList
+                        ListHeaderComponent={<ProfileHeader isAdmin />}
+                        data={myUserPosts}
+                        keyExtractor={(item) => item._id}
+                        refreshing={getMyUserPostsMutation.isLoading}
+                        onRefresh={getMyUserPostsMutation.mutate}
+                        renderItem={({ item }) => <PostCard post={item} />} />
+                )
+            }
+
+        </View>
+    )
+}
+
+export default PageHoc(Profile)

@@ -7,44 +7,54 @@ import {
 import CommentIcon from '../../../assets/icons/CommentIcon.png'
 import LikeIcon from '../../../assets/icons/LikeIcon.png'
 
-const PostActions = () => (
-    <View style={styles.actions}>
-        <View style={styles.actionButtonStyle}>
-            <TouchableOpacity>
-                <Image
-                    source={LikeIcon}
-                    resizeMode='contain'
-                    style={styles.actionIcon} />
-            </TouchableOpacity>
-            <Text style={styles.actionLikeCountText}>
-                62
-            </Text>
+const PostActions = ({
+    post, handleLike, handleUnlike, isPostAlreadyLiked
+}) => {
+    console.log(isPostAlreadyLiked)
+
+    return (
+        <View style={styles.actions}>
+            <View style={styles.actionButtonStyle}>
+                <TouchableOpacity onPress={isPostAlreadyLiked ? handleUnlike : handleLike}>
+                    <Image
+                        source={LikeIcon}
+                        resizeMode='contain'
+                        style={[ isPostAlreadyLiked ? styles.postLiked : styles.actionIcon ]} />
+                </TouchableOpacity>
+                <Text style={styles.actionLikeCountText}>
+                    {post.likes.length}
+                </Text>
+            </View>
+            <View style={styles.actionButtonStyle}>
+                <TouchableOpacity>
+                    <Image
+                        source={CommentIcon}
+                        resizeMode='contain'
+                        style={styles.actionIcon} />
+                </TouchableOpacity>
+                <Text style={styles.actionLikeCountText}>
+                    {post.comments.length}
+                </Text>
+            </View>
         </View>
-        <View style={styles.actionButtonStyle}>
-            <TouchableOpacity>
-                <Image
-                    source={CommentIcon}
-                    resizeMode='contain'
-                    style={styles.actionIcon} />
-            </TouchableOpacity>
-            <Text style={styles.actionLikeCountText}>
-                62
-            </Text>
-        </View>
-    </View>
-)
+    )
+}
 
 export default PostActions
 
 const styles = StyleSheet.create({
-
     actions: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        marginTop: 10,
+        marginTop: 20,
         paddingHorizontal: 20
     },
     actionIcon: {
+        width: 25,
+        height: 25
+    },
+    postLiked: {
+        tintColor: '#1DAEFF',
         width: 25,
         height: 25
     },

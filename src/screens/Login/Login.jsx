@@ -10,6 +10,7 @@ import { useMutation } from 'react-query'
 import PageHoc from '../../layouts/PageHoc'
 import { userAtom } from '../../utils/atoms'
 import * as Queries from '../../utils/queries'
+import Storage from '../../utils/storage'
 import styles from './LoginStyles'
 
 import devflowImage from '../../../assets/images/devflow.png'
@@ -33,7 +34,8 @@ const Login = () => {
     }
 
     const loginMutation = useMutation(Queries.login, {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
+            await Storage.setItem('accessToken', data.accessToken)
             setUser(data)
         },
         onError: (error) => {

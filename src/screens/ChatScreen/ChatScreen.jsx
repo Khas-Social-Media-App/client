@@ -4,7 +4,6 @@ import firestore from '@react-native-firebase/firestore'
 import { useAtomValue } from 'jotai'
 import { GiftedChat } from 'react-native-gifted-chat'
 
-import ProfileAvatar from '../../components/ProfileAvatar/ProfileAvatar'
 import { userAtom } from '../../utils/atoms'
 
 export function ChatScreen() {
@@ -42,7 +41,7 @@ export function ChatScreen() {
                 from: String(user.user._id),
                 to: '627242e325661858906a659c',
                 user: {
-                    _id: user.user._id + 1,
+                    _id: user.user._id,
                     name: user.user.displayName,
                     avatar: user.user.photoURL
                 }

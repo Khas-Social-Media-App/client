@@ -1,12 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import Page from '../components/Page';
+import Page from '../components/Page'
 
-const PageHoc = (Component, pageProps) => props =>
-  (
+const PageHoc = (Component, pageProps) => (props) => (
     <Page {...pageProps}>
-      <Component {...props} />
+        <Component {...props} />
     </Page>
-  );
+)
 
-export default PageHoc;
+export default PageHoc

@@ -63,7 +63,7 @@ const Home = () => {
                     <FlatList
                         data={feedPosts}
                         keyExtractor={(item) => item._id}
-                        renderItem={({ item }) => <PostCard post={item} />}
+                        renderItem={({ item }) => <PostCard post={item} setFeedPosts={setFeedPosts} />}
                         refreshing={getFeedPostsMutation.isLoading}
                         onRefresh={getFeedPostsMutation.mutate}
                         style={styles.feedList} />

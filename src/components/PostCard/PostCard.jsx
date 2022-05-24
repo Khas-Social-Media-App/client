@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { useAtomValue } from 'jotai'
 import {
     Image, StyleSheet, Text, View
@@ -14,8 +15,14 @@ import * as Queries from '../../utils/queries'
 import PostUserHeader from '../PostUserHeader/PostUserHeader'
 import PostActions from './PostActions'
 
-const PostCard = ({ navigator, post }) => {
+const PostCard = ({
+    navigator, post, setFeedPosts, setMyUserPosts
+}) => {
     const user = useAtomValue(userAtom)
+
+    const navigation = useNavigation()
+
+    const isAdmin = post.owner._id === user.user._id
 
     const isPostAlreadyLiked = post.likes.includes(user.user._id)
 
@@ -25,6 +32,21 @@ const PostCard = ({ navigator, post }) => {
                 type: 'success',
                 text1: 'Post liked successfully'
             })
+
+            setFeedPosts((prevData) => {
+                const newData = prevData.map((item) => {
+                    if (item._id === data._id) {
+                        return {
+                            ...item,
+                            likes: data.likes
+                        }
+                    }
+
+                    return item
+                })
+
+                return newData
+            })
         }
     })
 
@@ -33,6 +55,21 @@ const PostCard = ({ navigator, post }) => {
             Toast.show({
                 type: 'success',
                 text1: 'Post unliked successfully'
+            })
+
+            setFeedPosts((prevData) => {
+                const newData = prevData.map((item) => {
+                    if (item._id === data._id) {
+                        return {
+                            ...item,
+                            likes: data.likes
+                        }
+                    }
+
+                    return item
+                })
+
+                return newData
             })
         }
     })
@@ -45,9 +82,13 @@ const PostCard = ({ navigator, post }) => {
         unlikePostMutation.mutate(post._id)
     }
 
+    const onUserHeaderPress = () => {
+        navigation.navigate('UserProfileScreen', { user: post.owner._id })
+    }
+
     return (
         <View style={styles.cardView}>
-            <PostUserHeader owner={post.owner} />
+            <PostUserHeader owner={post.owner} isAdmin={isAdmin} onPress={onUserHeaderPress} />
             <View style={styles.cardContent}>
                 <Text>
                     {post.content}

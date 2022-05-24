@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react'
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
@@ -9,11 +11,14 @@ import { Image } from 'react-native'
 import Header from '../components/Header'
 import { ChatScreen } from '../screens/ChatScreen/ChatScreen'
 import CreatePostScreen from '../screens/CreatePostScreen/CreatePostScreen'
+import Edit from '../screens/Edit/Edit'
 import Home from '../screens/Home/Home'
 import Login from '../screens/Login/Login'
 import Messages from '../screens/Messages/Messages'
 import Profile from '../screens/Profile/Profile'
+import SearchScreen from '../screens/SearchScreen/SearchScreen'
 import SettingsPage from '../screens/SettingsPage/SettingsPage'
+import UserProfileScreen from '../screens/UserProfileScreen/UserProfileScreen'
 import { userAtom } from '../utils/atoms'
 import navigationRef from '../utils/navigation-ref'
 
@@ -21,6 +26,7 @@ import ChatIcon from '../../assets/icons/ChatIcon.png'
 import GearIcon from '../../assets/icons/GearIcon.png'
 import HomeIcon from '../../assets/icons/HomeIcon.png'
 import ProfileIcon from '../../assets/icons/ProfileIcon.png'
+import SearchIcon from '../../assets/icons/SearchIcon.png'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -51,6 +57,21 @@ function MyTabs() {
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ChatIcon}
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#1DAEFF' : '#000'
+                            }} />
+                    ),
+                    tabBarShowLabel: false
+                }} />
+            <Tab.Screen
+                name='Search'
+                component={SearchScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={SearchIcon}
                             style={{
                                 width: 25,
                                 height: 25,
@@ -146,10 +167,23 @@ const RootNavigator = () => {
                                 headerShown: false
                             }} />
                         <Stack.Screen
+                            name='UserProfileScreen'
+                            component={UserProfileScreen}
+                            options={{
+                                header: () => <Header title='Profile' />
+                            }} />
+                        <Stack.Screen
                             name='CreatePostScreen'
                             component={CreatePostScreen}
                             options={{
                                 header: () => <Header title='Create Post' />,
+                                animation: 'slide_from_bottom'
+                            }} />
+                        <Stack.Screen
+                            name='EditProfile'
+                            component={Edit}
+                            options={{
+                                header: () => <Header title='Edit' />,
                                 animation: 'slide_from_bottom'
                             }} />
                     </>

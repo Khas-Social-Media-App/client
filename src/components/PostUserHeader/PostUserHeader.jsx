@@ -6,9 +6,9 @@ import {
 
 import ThreeDotsIcon from '../../../assets/icons/ThreeDots.png'
 
-const PostUserHeader = ({ owner }) => (
+const PostUserHeader = ({ owner, isAdmin, onPress }) => (
     <View style={styles.container}>
-        <View style={styles.containerLeft}>
+        <TouchableOpacity onPress={onPress} style={styles.containerLeft}>
             <Image
                 source={{
                     uri: owner.photoURL
@@ -19,13 +19,17 @@ const PostUserHeader = ({ owner }) => (
                     {owner.displayName ? owner.displayName : owner.username}
                 </Text>
                 <Text style={styles.title}>
-                    React Native Developer
+                    {owner?.title}
                 </Text>
             </View>
-        </View>
-        <TouchableOpacity style={styles.postOptionsButton}>
-            <Image source={ThreeDotsIcon} style={styles.threeDots} />
         </TouchableOpacity>
+        {
+            isAdmin && (
+                <TouchableOpacity style={styles.postOptionsButton}>
+                    <Image source={ThreeDotsIcon} style={styles.threeDots} />
+                </TouchableOpacity>
+            )
+        }
     </View>
 )
 
@@ -53,6 +57,7 @@ const styles = StyleSheet.create({
     },
     nameAndTitleContainer: {
         flexDirection: 'column',
+        justifyContent: 'center',
         marginLeft: 10
     },
     threeDots: {

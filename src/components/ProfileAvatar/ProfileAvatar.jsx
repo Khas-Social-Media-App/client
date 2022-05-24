@@ -4,10 +4,10 @@ import {
     Image, StyleSheet
 } from 'react-native'
 
-const ProfileAvatar = () => (
+const ProfileAvatar = ({ img }) => (
     <Image
         source={{
-            uri: 'https://avatars.githubusercontent.com/u/75138419?v=4'
+            uri: img
         }}
         style={styles.avatar} />
 )

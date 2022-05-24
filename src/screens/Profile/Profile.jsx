@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useAtomValue } from 'jotai'
 import {
     ActivityIndicator,
     FlatList,
@@ -11,10 +12,12 @@ import { useMutation } from 'react-query'
 import PostCard from '../../components/PostCard/PostCard'
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader'
 import PageHoc from '../../layouts/PageHoc'
+import { userAtom } from '../../utils/atoms'
 import * as Queries from '../../utils/queries'
 import { styles } from './ProfileStyles'
 
 const Profile = () => {
+    const user = useAtomValue(userAtom)
     const [ myUserPosts, setMyUserPosts ] = React.useState([])
     const getMyUserPostsMutation = useMutation(Queries.getMyUserPosts, {
         onSuccess: (data) => {
@@ -44,7 +47,7 @@ const Profile = () => {
                     </View>
                 ) : (
                     <FlatList
-                        ListHeaderComponent={<ProfileHeader isAdmin />}
+                        ListHeaderComponent={<ProfileHeader isAdmin user={user.user} postsLength={myUserPosts.length} />}
                         data={myUserPosts}
                         keyExtractor={(item) => item._id}
                         refreshing={getMyUserPostsMutation.isLoading}

@@ -9,36 +9,32 @@ import LikeIcon from '../../../assets/icons/LikeIcon.png'
 
 const PostActions = ({
     post, handleLike, handleUnlike, isPostAlreadyLiked
-}) => {
-    console.log(isPostAlreadyLiked)
-
-    return (
-        <View style={styles.actions}>
-            <View style={styles.actionButtonStyle}>
-                <TouchableOpacity onPress={isPostAlreadyLiked ? handleUnlike : handleLike}>
-                    <Image
-                        source={LikeIcon}
-                        resizeMode='contain'
-                        style={[ isPostAlreadyLiked ? styles.postLiked : styles.actionIcon ]} />
-                </TouchableOpacity>
-                <Text style={styles.actionLikeCountText}>
-                    {post.likes.length}
-                </Text>
-            </View>
-            <View style={styles.actionButtonStyle}>
-                <TouchableOpacity>
-                    <Image
-                        source={CommentIcon}
-                        resizeMode='contain'
-                        style={styles.actionIcon} />
-                </TouchableOpacity>
-                <Text style={styles.actionLikeCountText}>
-                    {post.comments.length}
-                </Text>
-            </View>
+}) => (
+    <View style={styles.actions}>
+        <View style={styles.actionButtonStyle}>
+            <TouchableOpacity onPress={isPostAlreadyLiked ? handleUnlike : handleLike}>
+                <Image
+                    source={LikeIcon}
+                    resizeMode='contain'
+                    style={[ isPostAlreadyLiked ? styles.postLiked : styles.actionIcon ]} />
+            </TouchableOpacity>
+            <Text style={styles.actionLikeCountText}>
+                {post.likes.length}
+            </Text>
         </View>
-    )
-}
+        <View style={styles.actionButtonStyle}>
+            <TouchableOpacity>
+                <Image
+                    source={CommentIcon}
+                    resizeMode='contain'
+                    style={styles.actionIcon} />
+            </TouchableOpacity>
+            <Text style={styles.actionLikeCountText}>
+                {post.comments.length}
+            </Text>
+        </View>
+    </View>
+)
 
 export default PostActions
 

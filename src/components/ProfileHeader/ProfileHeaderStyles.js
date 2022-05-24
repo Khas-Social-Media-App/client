@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     },
     nameAndTitleContainer: {
         flexDirection: 'column',
+        justifyContent: 'center',
         marginLeft: 10,
         alignItems: 'flex-start'
     },
@@ -105,5 +106,20 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 34
+    },
+    messageButton: {
+        alignSelf: 'stretch',
+        justifyContent: 'center',
+        borderRadius: 5,
+        backgroundColor: '#0386D0',
+        marginTop: 20,
+        height: 40,
+        marginHorizontal: 10
+    },
+    messageButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center'
     }
 })

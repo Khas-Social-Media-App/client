@@ -5,7 +5,7 @@ import Config from 'react-native-config'
 import Storage from './storage'
 
 const instance = axios.create({
-    baseURL: 'http://192.168.1.8:3000',
+    baseURL: Config.API,
     timeout: 15 * 1000
 })
 

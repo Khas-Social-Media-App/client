@@ -40,21 +40,13 @@ const Profile = () => {
     return (
         <View style={styles.container}>
 
-            {
-                myUserPosts.length === 0 ? (
-                    <View style={styles.container}>
-                        <Text>No posts yet</Text>
-                    </View>
-                ) : (
-                    <FlatList
-                        ListHeaderComponent={<ProfileHeader isAdmin user={user.user} postsLength={myUserPosts.length} />}
-                        data={myUserPosts}
-                        keyExtractor={(item) => item._id}
-                        refreshing={getMyUserPostsMutation.isLoading}
-                        onRefresh={getMyUserPostsMutation.mutate}
-                        renderItem={({ item }) => <PostCard post={item} />} />
-                )
-            }
+            <FlatList
+                ListHeaderComponent={<ProfileHeader isAdmin user={user.user} postsLength={myUserPosts.length} />}
+                data={myUserPosts}
+                keyExtractor={(item) => item._id}
+                refreshing={getMyUserPostsMutation.isLoading}
+                onRefresh={getMyUserPostsMutation.mutate}
+                renderItem={({ item }) => <PostCard post={item} />} />
 
         </View>
     )

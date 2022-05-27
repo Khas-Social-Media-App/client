@@ -1,4 +1,18 @@
+import { Platform } from 'react-native'
+
 import instance from './axios'
+
+export const uploadImage = (media) => {
+    const formData = new FormData()
+    formData.append('file', {
+        name: 'file',
+        type: 'image/jpeg',
+        uri:
+            Platform.OS === 'android' ? media : media.replace('file://', '')
+    })
+
+    return instance.post('/post/upload-image', formData)
+}
 
 export const login = (data) => instance.post('/auth/login', data)
 
@@ -6,7 +20,10 @@ export const getFeedPosts = () => instance.get('/post/get-following-users-posts'
 
 export const getMyUserPosts = () => instance.get('/post/get-users-all-posts')
 
-export const createPost = (postDto) => instance.post('/post/create-post', postDto)
+export const createPost = (postDto) => {
+    console.log(postDto)
+    instance.post('/post/create-post', postDto)
+}
 
 export const likePost = (postId) => instance.put(`/post/like-post/${postId}`)
 

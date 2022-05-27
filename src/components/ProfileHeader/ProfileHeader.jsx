@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react'
 
+import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from '@react-navigation/native'
 import { useAtomValue } from 'jotai'
 import {
@@ -20,6 +22,45 @@ const ProfileHeader = ({
 
     const onEditPress = () => {
         navigation.navigate('EditProfile')
+    }
+    const onCreateChat = async () => {
+        const unsub = await firestore()
+            .collection('rooms')
+            .where('users', 'array-contains', myUser.user._id)
+
+        if (unsub._queryName === undefined) {
+            const response = await firestore().collection('rooms').add({
+                created_at: firestore.Timestamp.now(),
+                users: [ myUser?.user._id, user._id ],
+                photos: [
+                    {
+                        id: myUser?.user._id,
+                        url: myUser?.user.photoURL,
+                        name: myUser?.user.displayName ? myUser?.user.displayName : myUser?.user.username
+                    },
+                    {
+                        id: user?._id,
+                        url: user?.photoURL,
+                        name: user?.displayName ? user.displayName : user.username
+                    }
+                ]
+            })
+
+            navigation.navigate('Chat', {
+                roomId: response.id
+            })
+        } else {
+            unsub.onSnapshot((snapshot) => {
+                snapshot.docs.map(async (doc) => {
+                    const { users } = doc.data()
+                    if (users.includes(myUser.user._id) && users.includes(user._id)) {
+                        navigation.navigate('Chat', {
+                            roomId: doc.id
+                        })
+                    }
+                })
+            })
+        }
     }
 
     return (
@@ -73,11 +114,10 @@ const ProfileHeader = ({
             </View>
             {
                 isSingle && !isAdmin && (
-                    <TouchableOpacity style={styles.messageButton}>
+                    <TouchableOpacity onPress={onCreateChat} style={styles.messageButton}>
 
                         <Text style={styles.messageButtonText}>
                             Message
-
                         </Text>
 
                     </TouchableOpacity>

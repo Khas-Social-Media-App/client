@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import {
+    ActivityIndicator,
     Image,
     StyleSheet,
     Text,
@@ -16,12 +17,13 @@ import { useMutation } from 'react-query'
 import MultilineInput from '../../components/Input/MultilineInput'
 import PageHoc from '../../layouts/PageHoc'
 import * as Queries from '../../utils/queries'
+import { showRequestFailedMessage } from '../../utils/show-message'
 
-const CreatePostScreen = ({ route }) => {
+const CreatePostScreen = () => {
     const navigation = useNavigation()
-    const { setFeedPosts } = route.params
-    const [ content, setContent ] = React.useState('')
+    const [ postContent, setContent ] = React.useState('')
     const [ image, setImage ] = React.useState(null)
+    const [ imageURL, setImageURL ] = React.useState(null)
 
     const createPostMutation = useMutation(Queries.createPost, {
         onSuccess: (data) => {
@@ -29,9 +31,17 @@ const CreatePostScreen = ({ route }) => {
                 type: 'success',
                 text1: 'Post created successfully'
             })
-            setFeedPosts((prevData) => [ data, ...prevData ])
+
             navigation.goBack()
-        }
+        },
+        onError: showRequestFailedMessage
+    })
+
+    const onUploadImageMutation = useMutation(Queries.uploadImage, {
+        onSuccess: (data) => {
+            setImageURL(data.url)
+        },
+        onError: showRequestFailedMessage
     })
 
     const handleImagePick = () => {
@@ -40,22 +50,36 @@ const CreatePostScreen = ({ route }) => {
             height: 300,
             cropping: true
         }).then((image) => {
-            console.log(image)
+            onUploadImageMutation.mutate(image.path)
             setImage(image.path)
         }).catch((error) => { })
     }
 
     const handleSubmit = () => {
-        createPostMutation.mutate({
-            content,
-            image
-        })
+        if (imageURL) {
+            createPostMutation.mutate({
+                content: postContent,
+                image: imageURL
+            })
+        } else {
+            createPostMutation.mutate({
+                content: postContent
+            })
+        }
+    }
+
+    if (onUploadImageMutation.isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator color='#1DAEFF' />
+            </View>
+        )
     }
 
     return (
         <View style={styles.createPostContainer}>
             <MultilineInput
-                value={content}
+                value={postContent}
                 setValue={setContent} />
             <TouchableOpacity onPress={handleImagePick} style={styles.imagePickerContainer}>
                 {
@@ -64,12 +88,7 @@ const CreatePostScreen = ({ route }) => {
                             source={{
                                 uri: image
                             }}
-                            style={{
-                                width: widthPercentageToDP(85),
-                                height: widthPercentageToDP(50),
-                                borderRadius: 10,
-                                resizeMode: 'cover'
-                            }} />
+                            style={styles.image} />
                     ) : (
                         <Text>
                             Select Image
@@ -79,7 +98,14 @@ const CreatePostScreen = ({ route }) => {
                 }
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Create</Text>
+                {
+                    createPostMutation.isLoading ? (
+                        <ActivityIndicator color='#1DAEFF' />
+                    ) : (
+                        <Text style={styles.buttonText}>Create</Text>
+
+                    )
+                }
             </TouchableOpacity>
         </View>
     )
@@ -91,6 +117,19 @@ const styles = StyleSheet.create({
         padding: 30,
         justifyContent: 'center',
         alignSelf: 'stretch'
+    },
+    image: {
+        width: widthPercentageToDP(85),
+        height: widthPercentageToDP(50),
+        borderRadius: 10,
+        resizeMode: 'cover'
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.5
     },
     buttonContainer: {
         backgroundColor: '#1DAEFF',

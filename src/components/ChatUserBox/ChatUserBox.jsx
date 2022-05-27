@@ -1,21 +1,31 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { useAtomValue } from 'jotai'
 import {
     StyleSheet, Text, TouchableOpacity, View
 } from 'react-native'
 import { widthPercentageToDP } from 'react-native-responsive-screen'
 
+import { userAtom } from '../../utils/atoms'
 import ProfileAvatar from '../ProfileAvatar/ProfileAvatar'
 
-const ChatUserBox = () => {
+const ChatUserBox = ({ item }) => {
+    const myUser = useAtomValue(userAtom)
+    const chatOpponent = item.photos.filter((user) => user.id !== myUser?.user._id)
     const navigation = useNavigation()
 
+    const onChatPress = () => {
+        navigation.navigate('Chat', {
+            roomId: item._id
+        })
+    }
+
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.chatBoxContainer}>
-            <ProfileAvatar />
+        <TouchableOpacity onPress={onChatPress} style={styles.chatBoxContainer}>
+            <ProfileAvatar img={chatOpponent[0].url} />
             <View style={styles.userNameAndTitle}>
-                <Text style={styles.fullName}>Mertcan Karaman</Text>
+                <Text style={styles.fullName}>{chatOpponent[0].name ? chatOpponent[0].name : null}</Text>
                 <Text style={styles.lastMessage}>Last Message</Text>
             </View>
         </TouchableOpacity>

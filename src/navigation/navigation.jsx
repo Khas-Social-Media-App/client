@@ -5,8 +5,10 @@ import * as React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { Image } from 'react-native'
+import Config from 'react-native-config'
+import socketIo from 'socket.io-client'
 
 import Header from '../components/Header'
 import { ChatScreen } from '../screens/ChatScreen/ChatScreen'
@@ -19,8 +21,9 @@ import Profile from '../screens/Profile/Profile'
 import SearchScreen from '../screens/SearchScreen/SearchScreen'
 import SettingsPage from '../screens/SettingsPage/SettingsPage'
 import UserProfileScreen from '../screens/UserProfileScreen/UserProfileScreen'
-import { userAtom } from '../utils/atoms'
+import { userAtom, socketAtom } from '../utils/atoms'
 import navigationRef from '../utils/navigation-ref'
+import Storage from '../utils/storage'
 
 import ChatIcon from '../../assets/icons/ChatIcon.png'
 import GearIcon from '../../assets/icons/GearIcon.png'
@@ -141,6 +144,26 @@ const Navigation = () => {
 
 const RootNavigator = () => {
     const user = useAtomValue(userAtom)
+    const [ socket, setSocket ] = useAtom(socketAtom)
+
+    React.useEffect(() => {
+        if (user) {
+            Storage.getItem('accessToken').then((accessToken) => {
+                const s = socketIo(Config.API, {
+                    extraHeaders: {
+                        authorization: accessToken
+                    },
+                    transports: [ 'websocket' ]
+                })
+
+                setSocket(s)
+            })
+        }
+    }, [ user ])
+
+    if (!socket && user) {
+        return null
+    }
 
     return (
         <Stack.Navigator

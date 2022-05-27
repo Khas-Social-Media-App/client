@@ -63,7 +63,7 @@ const Edit = () => {
             <Input control={control} name='displayName' placeholder='Full Name' />
 
             <Label label='Username' key='username' />
-            <Input control={control} name='username' placeholder='username' disable />
+            <Input control={control} name='username' placeholder='username' />
 
             <Label label='Job Title' key='jobTitle' />
             <Input control={control} name='title' placeholder='Job Title' />

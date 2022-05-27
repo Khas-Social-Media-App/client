@@ -59,10 +59,11 @@ const Login = () => {
 
         if (gitUser) {
             loginMutation.mutate({
-                email: gitUser.email ? gitUser.email : '',
-                username: gitUser.login ? gitUser.login : '',
-                displayName: gitUser.name ? gitUser.name : '',
-                photoURL: gitUser.avatar_url ? gitUser.avatar_url : ''
+                email: gitUser.email,
+                username: gitUser.login,
+                displayName: gitUser.name,
+                githubId: gitUser.id,
+                photoURL: gitUser.avatar_url
             })
         }
     }

@@ -16,7 +16,7 @@ import PostUserHeader from '../PostUserHeader/PostUserHeader'
 import PostActions from './PostActions'
 
 const PostCard = ({
-    navigator, post, setFeedPosts, setMyUserPosts
+    navigator, post, setFeedPosts
 }) => {
     const user = useAtomValue(userAtom)
 
@@ -83,7 +83,7 @@ const PostCard = ({
     }
 
     const onUserHeaderPress = () => {
-        navigation.navigate('UserProfileScreen', { user: post.owner._id })
+        navigation.navigate('UserProfileScreen', { user: post?.owner._id })
     }
 
     return (

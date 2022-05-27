@@ -25,6 +25,7 @@ const UserProfileScreen = () => {
     const isAdmin = myUser.user._id === user
     const [ myUserPosts, setMyUserPosts ] = React.useState([])
     const [ singleUser, setSingleUser ] = React.useState()
+
     const getSingleUser = useMutation(Queries.getSingleUser, {
         onSuccess: (data) => {
             setMyUserPosts(data.posts)

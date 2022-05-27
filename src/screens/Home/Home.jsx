@@ -8,6 +8,7 @@ import { FloatingAction } from 'react-native-floating-action'
 import { useMutation } from 'react-query'
 
 import PostCard from '../../components/PostCard/PostCard'
+import useSocketListener from '../../hooks/useSocketListener'
 import PageHoc from '../../layouts/PageHoc'
 import * as Queries from '../../utils/queries'
 import { styles } from './HomeStyles'
@@ -25,6 +26,11 @@ const Home = () => {
         }
     })
 
+    useSocketListener('POST', ({ post }) => {
+        console.log('socket post', post)
+        setFeedPosts((prevPost) => [ post, ...prevPost ])
+    })
+
     const actions = [
         {
             text: 'Add Post',
@@ -36,7 +42,7 @@ const Home = () => {
 
     const onFloatingActionPress = (name) => {
         if (name === '1') {
-            navigation.navigate('CreatePostScreen', { setFeedPosts })
+            navigation.navigate('CreatePostScreen', { getFeed: getFeedPostsMutation.mutate })
         }
     }
 
@@ -54,21 +60,20 @@ const Home = () => {
 
     return (
         <>
-            {
-                feedPosts.length === 0 ? (
+
+            <FlatList
+                data={feedPosts}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => <PostCard post={item} setFeedPosts={setFeedPosts} />}
+                refreshing={getFeedPostsMutation.isLoading}
+                ListEmptyComponent={() => (
                     <View style={styles.container}>
                         <Text>No posts yet</Text>
                     </View>
-                ) : (
-                    <FlatList
-                        data={feedPosts}
-                        keyExtractor={(item) => item._id}
-                        renderItem={({ item }) => <PostCard post={item} setFeedPosts={setFeedPosts} />}
-                        refreshing={getFeedPostsMutation.isLoading}
-                        onRefresh={getFeedPostsMutation.mutate}
-                        style={styles.feedList} />
-                )
-            }
+                )}
+                onRefresh={getFeedPostsMutation.mutate}
+                style={styles.feedList} />
+
             <View style={styles.floatingButtonStyle}>
                 <FloatingAction
                     shadowBackground={false}

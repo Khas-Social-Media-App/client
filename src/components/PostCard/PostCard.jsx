@@ -86,6 +86,10 @@ const PostCard = ({
         navigation.navigate('UserProfileScreen', { user: post?.owner._id })
     }
 
+    const onPressComments = () => {
+        navigation.navigate('CommentsScreen', { id: post._id })
+    }
+
     return (
         <View style={styles.cardView}>
             <PostUserHeader owner={post.owner} isAdmin={isAdmin} onPress={onUserHeaderPress} />
@@ -104,7 +108,7 @@ const PostCard = ({
                     )
                 }
             </View>
-            <PostActions post={post} handleLike={handleLike} handleUnlike={handleUnlike} isPostAlreadyLiked={isPostAlreadyLiked} />
+            <PostActions post={post} handleLike={handleLike} onPressComments={onPressComments} handleUnlike={handleUnlike} isPostAlreadyLiked={isPostAlreadyLiked} />
         </View>
     )
 }

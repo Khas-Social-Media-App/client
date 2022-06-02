@@ -3,15 +3,16 @@ import React, { useState, useCallback, useEffect } from 'react'
 import firestore from '@react-native-firebase/firestore'
 import { useRoute } from '@react-navigation/native'
 import { useAtomValue } from 'jotai'
-import { Bubble, GiftedChat } from 'react-native-gifted-chat'
+import { StyleSheet } from 'react-native'
+import { GiftedChat } from 'react-native-gifted-chat'
 
-import Loading from '../../components/Loading'
+import Header from '../../components/Header'
 import { userAtom } from '../../utils/atoms'
 
-export function ChatScreen() {
+const ChatScreen = () => {
     const user = useAtomValue(userAtom)
     const route = useRoute()
-    const { roomId } = route.params
+    const { roomId, opponent } = route.params
     const [ msgs, setMessages ] = useState([])
 
     const getSingleChatMessages = () => {
@@ -41,9 +42,9 @@ export function ChatScreen() {
             .collection('messages')
             .add({
                 text: messages[0].text,
-                createdAt: firestore.Timestamp.now(),
+                created_at: firestore.Timestamp.now(),
                 from: String(user.user._id),
-                to: '627242e325661858906a659c',
+                to: opponent,
                 user: {
                     _id: user.user._id,
                     name: user.user.displayName,
@@ -55,36 +56,28 @@ export function ChatScreen() {
             })
     }, [])
 
-    function renderBubble(props) {
-        return (
-            <Bubble
-                {...props}
-                wrapperStyle={{
-                    left: {
-                        backgroundColor: '#d3d3d3'
-                    }
-                }} />
-        )
-    }
-
     return (
-        <GiftedChat
-            messages={msgs}
-            onSend={(messages) => onSend(messages)}
-            timeTextStyle={{
-                color: '#fff'
-            }}
-
-            messagesContainerStyle={{
-                marginBottom: 10,
-                backgroundColor: '#1DAEFF'
-            }}
-            renderBubble={<renderBubble />}
-            timeFormat='HH:mm'
-            user={{
-                _id: user.user._id,
-                name: user.user.displayName,
-                avatar: user.user.photoURL
-            }} />
+        <>
+            <Header title='Chat' />
+            <GiftedChat
+                messages={msgs}
+                onSend={(messages) => onSend(messages)}
+                messagesContainerStyle={styles.messagesContainerStyles}
+                timeFormat='HH:mm'
+                user={{
+                    _id: user.user._id,
+                    name: user.user.displayName,
+                    avatar: user.user.photoURL
+                }} />
+        </>
     )
 }
+
+const styles = StyleSheet.create({
+    messagesContainerStyles: {
+        paddingVertical: 10,
+        backgroundColor: '#fff'
+    }
+})
+
+export default ChatScreen

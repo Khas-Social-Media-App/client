@@ -17,7 +17,8 @@ const ChatUserBox = ({ item }) => {
 
     const onChatPress = () => {
         navigation.navigate('Chat', {
-            roomId: item._id
+            roomId: item._id,
+            opponent: item?.users.filter((i) => i !== myUser.user._id)
         })
     }
 

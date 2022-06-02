@@ -11,7 +11,8 @@ import Config from 'react-native-config'
 import socketIo from 'socket.io-client'
 
 import Header from '../components/Header'
-import { ChatScreen } from '../screens/ChatScreen/ChatScreen'
+import ChatScreen from '../screens/ChatScreen/ChatScreen'
+import CommentsScreen from '../screens/CommentsScreen/CommentsScreen'
 import CreatePostScreen from '../screens/CreatePostScreen/CreatePostScreen'
 import Edit from '../screens/Edit/Edit'
 import Home from '../screens/Home/Home'
@@ -208,6 +209,12 @@ const RootNavigator = () => {
                             options={{
                                 header: () => <Header title='Edit' />,
                                 animation: 'slide_from_bottom'
+                            }} />
+                        <Stack.Screen
+                            name='CommentsScreen'
+                            component={CommentsScreen}
+                            options={{
+                                header: () => <Header title='Comments' />
                             }} />
                     </>
                 ) : (

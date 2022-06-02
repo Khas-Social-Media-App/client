@@ -2,7 +2,6 @@ import React from 'react'
 
 import '@react-native-firebase/app'
 import firestore from '@react-native-firebase/firestore'
-import { useNavigation } from '@react-navigation/native'
 import { useAtomValue } from 'jotai'
 import {
     FlatList, StyleSheet, Text, View
@@ -15,7 +14,6 @@ import { userAtom } from '../../utils/atoms'
 const Messages = () => {
     const [ chatUsers, setChatUsers ] = React.useState([])
     const myUser = useAtomValue(userAtom)
-    const navigation = useNavigation()
 
     const getUsers = async () => {
         const unsub = firestore()
@@ -41,11 +39,7 @@ const Messages = () => {
             data={chatUsers}
             renderItem={({ item }) => <ChatUserBox item={item} />}
             ListEmptyComponent={!chatUsers.length && (
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
+                <View style={styles.emptyStyle}>
                     <Text>
                         You have no chats.
                     </Text>
@@ -57,5 +51,9 @@ const Messages = () => {
 export default PageHoc(Messages)
 
 const styles = StyleSheet.create({
-
+    emptyStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })

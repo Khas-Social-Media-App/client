@@ -16,7 +16,7 @@ const Header = ({ title }) => {
     }
 
     return (
-        <View style={styles.headerContainer}>
+        <View style={[ styles.headerContainer ]}>
             <TouchableOpacity style={styles.goBackButton} onPress={onGoBackPress}>
                 <Image source={GoBackIcon} style={styles.iconStyle} />
             </TouchableOpacity>

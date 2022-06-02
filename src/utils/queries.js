@@ -21,7 +21,6 @@ export const getFeedPosts = () => instance.get('/post/get-following-users-posts'
 export const getMyUserPosts = () => instance.get('/post/get-users-all-posts')
 
 export const createPost = (postDto) => {
-    console.log(postDto)
     instance.post('/post/create-post', postDto)
 }
 
@@ -40,3 +39,7 @@ export const followUser = ({ followedPersonId }) => instance.put(`/user/follow-u
 export const unfollowUser = ({ followedPersonId }) => instance.put(`/user/unfollow-user/${followedPersonId}`)
 
 export const updateUser = (userDto) => instance.put('/user/update-user', userDto)
+
+export const getComments = (postId) => instance.get(`/post/get-comments/${postId}`)
+
+export const addComment = ({ postId, comment }) => instance.post(`/post/add-comment/${postId}`, { comment })

@@ -8,7 +8,7 @@ import CommentIcon from '../../../assets/icons/CommentIcon.png'
 import LikeIcon from '../../../assets/icons/LikeIcon.png'
 
 const PostActions = ({
-    post, handleLike, handleUnlike, isPostAlreadyLiked
+    post, handleLike, handleUnlike, isPostAlreadyLiked, onPressComments
 }) => (
     <View style={styles.actions}>
         <View style={styles.actionButtonStyle}>
@@ -23,7 +23,7 @@ const PostActions = ({
             </Text>
         </View>
         <View style={styles.actionButtonStyle}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onPressComments}>
                 <Image
                     source={CommentIcon}
                     resizeMode='contain'
